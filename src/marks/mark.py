@@ -13,13 +13,15 @@ mod.list("cursorless_hat_color", desc="Supported hat colors for cursorless")
 mod.list("cursorless_hat_shape", desc="Supported hat shapes for cursorless")
 
 # NOTE: Please do not change these dicts.  Use the CSVs for customization.
-# See https://github.com/pokey/cursorless-talon/blob/main/docs/customization.md
+# See https://github.com/cursorless-dev/cursorless-vscode/blob/main/docs/user/customization.md
 hat_colors = {
     "blue": "blue",
     "green": "green",
     "red": "red",
     "pink": "pink",
     "yellow": "yellow",
+    "navy": "userColor1",
+    "apricot": "userColor2",
 }
 
 hat_shapes = {
@@ -39,7 +41,7 @@ hat_shapes = {
 @mod.capture(
     rule="[{user.cursorless_hat_color}] [{user.cursorless_hat_shape}] <user.any_alphanumeric_key>"
 )
-def cursorless_decorated_symbol(m) -> str:
+def cursorless_decorated_symbol(m) -> dict[str, dict[str, Any]]:
     """A decorated symbol"""
     hat_color = getattr(m, "cursorless_hat_color", "default")
     try:
@@ -59,15 +61,16 @@ def cursorless_decorated_symbol(m) -> str:
 class CustomizableTerm:
     defaultSpokenForm: str
     cursorlessIdentifier: str
-    value: any
+    value: Any
 
 
 # NOTE: Please do not change these dicts.  Use the CSVs for customization.
-# See https://github.com/pokey/cursorless-talon/blob/main/docs/customization.md
+# See https://github.com/cursorless-dev/cursorless-vscode/blob/main/docs/user/customization.md
 special_marks = [
     CustomizableTerm("this", "currentSelection", {"mark": {"type": "cursor"}}),
     CustomizableTerm("that", "previousTarget", {"mark": {"type": "that"}}),
     CustomizableTerm("source", "previousSource", {"mark": {"type": "source"}}),
+    CustomizableTerm("nothing", "nothing", {"mark": {"type": "nothing"}}),
     # "last cursor": {"mark": {"type": "lastCursorPosition"}} # Not implemented
 ]
 
@@ -106,6 +109,8 @@ DEFAULT_COLOR_ENABLEMENT = {
     "red": True,
     "pink": True,
     "yellow": True,
+    "userColor1": False,
+    "userColor2": False,
 }
 
 DEFAULT_SHAPE_ENABLEMENT = {

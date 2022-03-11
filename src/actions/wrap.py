@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Any, Union
 from ..paired_delimiter import paired_delimiters_map
 from talon import Module, actions, app, Context
 from ..csv_overrides import init_csv_and_watch_changes
@@ -21,19 +21,20 @@ tag: user.cursorless_experimental_snippets
 
 
 # NOTE: Please do not change these dicts.  Use the CSVs for customization.
-# See https://github.com/pokey/cursorless-talon/blob/main/docs/customization.md
+# See https://github.com/cursorless-dev/cursorless-vscode/blob/main/docs/user/customization.md
 wrapper_snippets = {
     "else": "ifElseStatement.alternative",
     "if else": "ifElseStatement.consequence",
     "if": "ifStatement.consequence",
     "try": "tryCatchStatement.body",
+    "link": "link.text",
 }
 
 
 @mod.capture(
     rule="<user.cursorless_wrapper_paired_delimiter> | {user.cursorless_wrapper_snippet}"
 )
-def cursorless_wrapper(m) -> Union[list[str], str]:
+def cursorless_wrapper(m) -> dict[str, Any]:
     try:
         paired_delimiter_info = paired_delimiters_map[
             m.cursorless_wrapper_paired_delimiter
